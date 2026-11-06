@@ -1,0 +1,354 @@
+/* Oriel site, brand C (docs/brand/brief.md). Palette: paper, terracotta (the bay line), sun, light, ink, night.
+   Type: Fraunces 600 for the promise; Literata for reading text, quotes and titles; Google Sans for labels.
+   The wordmark is the brand's own vector lockup, inline. Pictures are the films' gouache. */
+
+:root {
+  --paper: #f3ebdd;
+  --paper-deep: #ebe0cc;     /* cards and panels: the paper a step darker */
+  --ink: #4f362a;            /* reading text: brand ink #6b4a3a a step darker */
+  --ink-soft: #6b4a3a;       /* brand ink, for secondary text */
+  --night: #2f5d62;          /* the wordmark and headings */
+  --bay: #c56236;            /* the bay line */
+  --sun: #df9c37;
+  --light: #f8c77a;
+  --rule: rgba(79, 54, 42, 0.16);
+  --panel: #121a2c;          /* the film's own dark, behind the screen before it plays */
+  --on-panel: #f3ebdd;
+
+  --display: "Fraunces", "Literata", Georgia, serif;
+  --serif: "Literata", Georgia, serif;
+  --sans: "Google Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --gutter: max(1rem, env(safe-area-inset-left));
+  --measure: 38rem;
+  --wide: 72rem;
+  color-scheme: light;
+}
+
+/* Evening: the night teal ground, paper ink; the bay lifts on night as in the brand. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1f3b3f; --paper-deep: #26474c; --ink: #f3ebdd; --ink-soft: #d3ddd9; --night: #f3ebdd;
+    --bay: #d9774c; --rule: rgba(243, 235, 221, 0.18); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1f3b3f; --paper-deep: #26474c; --ink: #f3ebdd; --ink-soft: #d3ddd9; --night: #f3ebdd;
+  --bay: #d9774c; --rule: rgba(243, 235, 221, 0.18); color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: 1.5rem; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+@media (min-width: 48rem) { body { font-size: 1.1875rem; } }
+
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration-color: var(--bay); text-decoration-thickness: 1.5px; text-underline-offset: 0.2em; }
+a:hover { text-decoration-thickness: 2.5px; }
+::selection { background: var(--light); color: #4f362a; }
+:focus-visible { outline: 3px solid var(--bay); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3 { font-weight: 600; line-height: 1.2; color: var(--night); text-wrap: balance; }
+
+.skip {
+  position: absolute; left: var(--gutter); top: -4rem; z-index: 20;
+  background: var(--ink); color: var(--paper); padding: 0.5rem 1rem; border-radius: 6px;
+  font-family: var(--sans); font-size: 0.9375rem; text-decoration: none;
+}
+.skip:focus { top: 0.75rem; }
+
+/* ---------- Header and footer ---------- */
+.site-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  max-width: var(--wide); margin: 0 auto; padding: 1.25rem var(--gutter);
+}
+.brand { display: block; flex: none; border-radius: 6px; }
+.lockup { display: block; height: 2.6rem; width: auto; }
+.lockup .word { fill: var(--night); }
+.lockup .sill, .sill-rule .sill { stroke: var(--bay); }
+.lockup .sun, .sill-rule .sun { fill: var(--sun); }
+
+.site-nav { display: flex; align-items: center; gap: clamp(0.5rem, 2.5vw, 1.5rem); font-family: var(--sans); font-size: 0.9375rem; font-weight: 500; }
+.site-nav a { color: var(--ink-soft); text-decoration: none; padding: 0.5rem 0.15rem; }
+.site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--ink); box-shadow: inset 0 -2px var(--sun); }
+.site-nav button {
+  display: inline-flex; align-items: center; gap: 0.35rem; min-height: 2.5rem;
+  border: 1px solid var(--rule); background: transparent; color: var(--ink-soft);
+  font: inherit; padding: 0.3rem 0.75rem; border-radius: 999px; cursor: pointer;
+}
+.site-nav button:hover { color: var(--ink); border-color: var(--ink-soft); }
+.site-nav button svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.site-nav button[aria-pressed="true"] { background: var(--paper-deep); color: var(--ink); }
+@media (max-width: 34rem) {
+  .lockup { height: 2.1rem; }
+  .site-nav .label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .site-nav button { padding: 0.3rem 0.6rem; }
+}
+
+.site-foot { max-width: var(--wide); margin: 5rem auto 0; padding: 0 var(--gutter) 3rem; text-align: center; }
+.site-foot .promise { font-family: var(--display); font-weight: 600; font-size: 1.6rem; color: var(--night); margin: 1.5rem 0 0.75rem; }
+.platform-links { list-style: none; padding: 0; margin: 0; display: flex; justify-content: center; gap: 1.5rem; font-family: var(--sans); font-weight: 500; }
+.platform-links a { display: inline-block; padding: 0.4rem 0; }
+.small { font-family: var(--sans); font-size: 0.875rem; color: var(--ink-soft); }
+
+/* ---------- The bay line and the sun, as a rule ---------- */
+/* One path: the line runs far out on both sides and the box clips it, so the joins are seamless. */
+.sill-rule { display: flex; justify-content: center; overflow: hidden; max-width: calc(var(--wide) - 2 * var(--gutter)); margin: 2.5rem auto; border-radius: 4px; }
+.sill-rule svg { width: 4.5rem; height: auto; flex: none; overflow: visible; }
+.sill-rule .sill { fill: none; stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; }
+.sill-rule.large svg { width: 7.5rem; }
+.sill-rule.large .sill { stroke-width: 5.5; }
+
+/* ---------- Shared labels ---------- */
+.kicker, .section-note, .meta, .pieces, .badge, .where, .contents, .piece-list dt, .study .kind, .study dt, .strip-nav {
+  font-family: var(--sans);
+}
+.kicker { font-size: 0.875rem; font-weight: 500; letter-spacing: 0.02em; color: var(--ink-soft); margin: 0 0 0.5rem; }
+.badge {
+  display: inline-block; vertical-align: middle; margin-left: 0.4rem; padding: 0.1rem 0.5rem; border-radius: 999px;
+  font-size: 0.75rem; font-weight: 500; color: var(--ink); background: var(--paper-deep); border: 1px solid var(--rule);
+}
+
+/* ---------- Home ---------- */
+.home-hero { max-width: var(--wide); margin: 0 auto; padding: clamp(2rem, 7vw, 5rem) var(--gutter) 1rem; text-align: center; }
+.home-hero .promise {
+  font-family: var(--display); font-weight: 600; font-size: clamp(2.5rem, 8vw, 5.25rem); line-height: 1.05;
+  letter-spacing: -0.015em; margin: 0 auto; max-width: 14ch;
+  min-height: 2.1em; /* two lines held open while the face loads, so nothing below moves */
+}
+.home-hero .sill-rule { margin: 1.75rem auto 2rem; padding: 0; }
+.home-hero .lead { font-size: clamp(1.25rem, 2.4vw, 1.5rem); margin: 0 auto 1rem; max-width: 34rem; }
+.home-hero .about { max-width: var(--measure); margin: 0 auto; color: var(--ink-soft); text-align: left; }
+.home-hero .more { font-family: var(--sans); font-weight: 500; margin-top: 1.5rem; }
+
+.films, .platforms { max-width: var(--wide); margin: 0 auto; padding: 3rem var(--gutter) 0; }
+.films > h2, .platforms > h2 { font-size: clamp(1.75rem, 3.5vw, 2.25rem); margin: 0 0 0.5rem; }
+.section-note { color: var(--ink-soft); font-size: 1rem; margin: 0 0 2rem; }
+
+.film-entry {
+  display: grid; gap: clamp(1.5rem, 4vw, 3rem); align-items: center;
+  background: var(--paper-deep); border-radius: 1.25rem; padding: clamp(1rem, 3vw, 2rem);
+}
+@media (min-width: 52rem) { .film-entry { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); } }
+.film-entry h3 { font-size: clamp(1.6rem, 3.2vw, 2.25rem); margin: 0 0 0.75rem; }
+.film-entry h3 a { text-decoration: none; }
+.film-entry h3 a:hover { text-decoration: underline; text-decoration-color: var(--bay); }
+.film-entry .text > p:not(.kicker) { margin: 0 0 1.5rem; }
+.art-link { display: block; }
+
+.pieces { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: 0.5rem; }
+.pieces a {
+  display: flex; flex-direction: column; gap: 0.1rem; height: 100%; text-decoration: none;
+  padding: 0.65rem 0.85rem; border-radius: 0.75rem; background: var(--paper); border: 1px solid var(--rule);
+}
+.pieces a:hover { border-color: var(--bay); }
+.pieces .what { font-weight: 500; color: var(--ink); font-size: 0.9375rem; }
+.pieces .state { font-size: 0.8125rem; color: var(--ink-soft); }
+.pieces .live .state::before { content: ""; display: inline-block; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--sun); margin-right: 0.35rem; vertical-align: 0.05em; }
+
+.platforms ul { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+.platforms a {
+  display: grid; gap: 0.15rem; padding: 1.1rem 1.25rem; border-radius: 1rem; text-decoration: none;
+  border: 1px solid var(--rule); background: var(--paper);
+}
+.platforms a:hover { border-color: var(--bay); }
+.platforms .name { font-weight: 600; font-size: 1.25rem; color: var(--night); }
+.platforms .handle, .platforms .carries { font-family: var(--sans); font-size: 0.9375rem; color: var(--ink-soft); }
+
+/* The film's emblem: day and night (SI-1, SI-2). Layers are placed in % of the sky; oriel.js moves them. */
+.emblem { position: relative; } /* its aspect ratio comes from the sky layer, set by the build */
+.emblem .sky { width: 100%; height: 100%; }
+.emblem .lights { position: absolute; inset: 0; }
+.emblem .sun, .emblem .moon { position: absolute; top: 0; will-change: transform; }
+.emblem .sun { left: 11%; width: 15%; }
+.emblem .moon { right: 8%; width: 19%; }
+
+/* ---------- Film page ---------- */
+.film-hero, .post-hero { max-width: var(--wide); margin: 0 auto; padding: clamp(1.5rem, 5vw, 3.5rem) var(--gutter) 0; }
+.film-hero { max-width: 60rem; }
+.film-hero h1, .post-hero h1 { font-size: clamp(2.25rem, 6vw, 3.75rem); margin: 0 0 0.75rem; letter-spacing: -0.01em; }
+.film-hero .subtitle { font-size: clamp(1.15rem, 2.2vw, 1.4rem); color: var(--ink-soft); margin: 0 0 1.5rem; max-width: 32rem; }
+.meta { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin: 0; font-size: 0.9375rem; }
+.meta dt { color: var(--ink-soft); font-size: 0.8125rem; }
+.meta dd { margin: 0; font-weight: 500; }
+.post-hero { max-width: 48rem; }
+.post-hero .hero-art { margin-top: 1.5rem; }
+
+.watch { max-width: 60rem; margin: 2rem auto 0; padding: 0 var(--gutter); }
+.player { position: relative; aspect-ratio: 16 / 9; border-radius: 1rem; overflow: hidden; background: var(--panel); }
+.player .poster { position: absolute; inset: 8% 0 auto; margin: auto; height: 84%; width: auto; max-width: 90%; object-fit: contain; }
+.player.tall { aspect-ratio: 9 / 16; width: min(100%, 17rem); }
+.player.tall .poster { inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+.player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.player .play { position: absolute; inset: 0; width: 100%; border: 0; padding: 0; background: none; cursor: pointer; }
+.play-icon { position: absolute; left: 50%; top: 50%; width: 4.5rem; height: 4.5rem; margin: -2.25rem; border-radius: 50%; background: var(--sun); box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25); }
+.play-icon::after { content: ""; position: absolute; left: 1.8rem; top: 1.35rem; border-left: 1.35rem solid #4f362a; border-top: 0.9rem solid transparent; border-bottom: 0.9rem solid transparent; }
+.play:hover .play-icon { background: var(--light); }
+
+.pending-note { font-family: var(--sans); font-size: 0.9375rem; color: var(--ink-soft); text-align: center; margin: 0.75rem 0 0; }
+
+.reading { display: grid; max-width: var(--wide); margin: 0 auto; padding: 0 var(--gutter); gap: 3rem; }
+@media (min-width: 64rem) { .reading:not(.single) { grid-template-columns: 13rem minmax(0, 1fr); } }
+.reading.single { justify-items: center; }
+.column { min-width: 0; max-width: 48rem; }
+.reading.single .column { width: 100%; max-width: var(--measure); }
+
+.contents { font-size: 0.9375rem; }
+.contents h2 { font-family: var(--sans); font-size: 0.8125rem; font-weight: 500; color: var(--ink-soft); margin: 0 0 0.75rem; }
+.contents ol { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--rule); }
+.contents a { display: block; padding: 0.35rem 0 0.35rem 1rem; margin-left: -2px; border-left: 2px solid transparent; color: var(--ink-soft); text-decoration: none; }
+.contents a:hover { color: var(--ink); }
+.contents a[aria-current="true"] { color: var(--ink); border-left-color: var(--bay); }
+@media (min-width: 64rem) { .contents nav, .contents { position: sticky; top: 2rem; align-self: start; } }
+@media (max-width: 63.99rem) { .contents { border: 1px solid var(--rule); border-radius: 1rem; padding: 1rem 1.25rem; } }
+
+/* ---------- Prose ---------- */
+.prose { max-width: var(--measure); }
+.prose h2 { font-size: clamp(1.6rem, 3.2vw, 2rem); margin: 3.5rem 0 1rem; }
+.prose h3 { font-size: 1.3rem; margin: 2.5rem 0 0.75rem; }
+.prose p, .prose li, .prose dd { hyphens: manual; }
+.prose .opening { font-size: 1.25em; line-height: 1.55; }
+/* The question, set off by the brand's mark: a short run of the bay line with the sun resting on the bay. */
+.prose .pull {
+  font-size: clamp(1.4rem, 3vw, 1.75rem); line-height: 1.35; color: var(--night); font-weight: 500;
+  margin: 2.5rem 0 2rem; padding-top: 2.4rem; position: relative;
+}
+.prose .pull::before {
+  content: ""; position: absolute; left: 0; top: 0; width: 4.5rem; height: 1.6rem;
+  background: var(--bay);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 32'%3E%3Cpath d='M2 29H24L33 18H57L66 29H88' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 32'%3E%3Cpath d='M2 29H24L33 18H57L66 29H88' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+.prose .pull::after {
+  content: ""; position: absolute; left: calc(2.25rem - 0.3rem); top: 0.1rem; width: 0.6rem; height: 0.6rem;
+  border-radius: 50%; background: var(--sun);
+}
+.prose .ours { font-family: var(--sans); font-size: 0.9375rem; color: var(--ink-soft); background: var(--paper-deep); border-radius: 0.75rem; padding: 0.9rem 1.1rem; }
+.prose .ref {
+  font-family: var(--sans); font-size: 0.7rem; vertical-align: super; line-height: 0; margin-left: 0.15em;
+  text-decoration: none; color: var(--ink-soft); padding: 0 0.15em;
+}
+.prose .ref::before { content: "["; } .prose .ref::after { content: "]"; }
+
+.art { margin: 1.5rem 0; }
+.art.figure-strip { margin: 1.5rem 0 1.75rem; }
+.art.figure-strip img { width: 100%; }
+@media (min-width: 40rem) {
+  .art.figure-right { float: right; width: 15rem; margin: 0.35rem -2rem 1rem 1.75rem; }
+  .art.figure-left { float: left; width: 15rem; margin: 0.35rem 1.75rem 1rem -2rem; }
+  .art.narrow { width: 8.5rem; }
+}
+@media (max-width: 39.99rem) { .art.figure-right, .art.figure-left { width: 70%; margin-inline: auto; } .art.narrow { width: 40%; } }
+.prose h2, .prose h3, .passage, .studies, .sources { clear: both; }
+
+.passage { margin: 2rem 0; padding: clamp(1.25rem, 3vw, 2rem); background: var(--paper-deep); border-radius: 1rem; }
+@media (min-width: 60rem) { .passage { margin-inline: -4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; } .passage figcaption { grid-column: 1 / -1; } }
+.passage blockquote { margin: 0; }
+.passage blockquote p { margin: 0 0 1rem; }
+.passage .original { font-style: italic; color: var(--ink-soft); }
+.passage .translation { color: var(--ink); }
+@media (max-width: 59.99rem) { .passage .original { margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--rule); } }
+.passage .sec { font-family: var(--sans); font-style: normal; font-size: 0.75rem; font-weight: 500; color: var(--ink-soft); margin-right: 0.35rem; }
+.passage figcaption { font-family: var(--sans); font-size: 0.875rem; color: var(--ink-soft); line-height: 1.5; }
+.passage cite { font-style: normal; font-weight: 500; color: var(--ink); }
+
+.studies { display: grid; gap: 1rem; margin: 1.5rem 0; }
+@media (min-width: 40rem) { .study dl { display: grid; grid-template-columns: 8.5rem 1fr; gap: 0 1.25rem; } .study dt { margin-top: 0.75rem; } .study dd { margin-top: 0.75rem; } }
+.study { border: 1px solid var(--rule); border-radius: 1rem; padding: 1.25rem; font-size: 0.9375em; }
+.study h3 { margin: 0; font-size: 1.15rem; }
+.study .kind { margin: 0.2rem 0 0.75rem; font-size: 0.8125rem; color: var(--ink-soft); }
+.study dl { margin: 0; }
+.study dt { font-size: 0.8125rem; font-weight: 500; color: var(--ink-soft); margin-top: 0.75rem; }
+.study dd { margin: 0.15rem 0 0; line-height: 1.55; }
+
+.sources { padding-left: 1.25rem; font-size: 0.9375rem; line-height: 1.55; }
+.sources li { margin-bottom: 0.75rem; overflow-wrap: anywhere; }
+.sources li:target { background: var(--paper-deep); border-radius: 0.5rem; }
+
+.piece-list dt { font-weight: 600; color: var(--night); margin-top: 1rem; font-size: 1rem; }
+.piece-list dd { margin: 0.15rem 0 0; }
+
+/* ---------- The film's pieces ---------- */
+.pieces-block { margin: 4rem 0 1rem; padding-top: 0.5rem; }
+.pieces-block > h2 { font-size: clamp(1.6rem, 3.2vw, 2rem); margin: 0 0 1.5rem; }
+.piece { margin: 0 0 3rem; }
+.piece h3 { font-size: 1.2rem; margin: 0 0 0.5rem; }
+.piece-title { margin: 0 0 1rem; color: var(--ink-soft); }
+.piece.coming p { margin: 0; max-width: var(--measure); color: var(--ink-soft); }
+.wallpaper-grid { display: grid; gap: 1.5rem 2rem; grid-template-columns: auto 1fr; align-items: start; }
+@media (max-width: 30rem) { .wallpaper-grid { grid-template-columns: 1fr; } .wallpaper-grid .preview-box { margin-inline: auto; } }
+.free { font-family: var(--sans); font-size: 0.875rem; color: var(--ink-soft); margin: 0.6rem 0 0; }
+.every { font-family: var(--sans); font-size: 0.875rem; padding-left: 1.1rem; }
+.where { font-size: 0.9375rem; color: var(--ink-soft); margin: 0.85rem 0 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; }
+.where a { font-weight: 500; color: var(--ink); }
+.button {
+  display: inline-block; line-height: 1.75rem; min-height: 2.75rem; padding: 0.5rem 1.1rem; border-radius: 999px;
+  background: var(--sun); color: #4f362a !important; text-decoration: none; font-weight: 500;
+}
+.button:hover { background: var(--light); }
+.file { font-size: 0.8125rem; }
+/* the file's size always takes its own line under the button, so no choice of screen can change the height */
+.download .file { flex-basis: 100%; }
+.devices { border: 0; margin: 1rem 0 0; padding: 0; min-width: 0; }
+.devices legend { font-family: var(--sans); font-size: 0.8125rem; color: var(--ink-soft); padding: 0; margin-bottom: 0.4rem; }
+.devices .options { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.devices label { position: relative; font-family: var(--sans); font-size: 0.875rem; }
+.devices input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.devices label span:first-of-type {
+  display: inline-flex; align-items: center; min-height: 2.25rem; padding: 0.25rem 0.8rem; border-radius: 999px;
+  border: 1px solid var(--rule); color: var(--ink-soft); background: var(--paper);
+}
+.devices input:checked + span { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.devices input:focus-visible + span { outline: 3px solid var(--bay); outline-offset: 2px; }
+.devices label.coming span:first-of-type { opacity: 0.55; border-style: dashed; }
+.devices input:disabled { cursor: default; }
+.devices.variants { margin-top: 0.6rem; }
+.devices label[hidden], .devices[hidden] { display: none; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* the wallpaper as it will be seen: the chosen screen's own picture in a frame of that screen's shape, in a box of
+   fixed size so choosing never moves the page */
+.preview-box { width: 320px; max-width: 100%; height: 432px; display: grid; place-items: center; overflow: hidden; }
+.device-frame { overflow: hidden; border: 6px solid #4f362a; background: #121a2c; line-height: 0; }
+.device-frame img { display: block; max-width: none; }
+.device-frame.phone { border-radius: 1.6rem; }
+.device-frame.tablet { border-radius: 1.1rem; border-width: 8px; }
+.device-frame.desktop { border-radius: 0.6rem; border-width: 7px; }
+.device-frame.tv { border-radius: 0.3rem; border-width: 5px; }
+
+.strip { overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; border-radius: 1rem; scrollbar-width: thin; }
+.strip ol { display: flex; gap: 0.75rem; list-style: none; margin: 0; padding: 0 0 0.75rem; }
+.strip li { flex: none; width: min(72vw, 18rem); scroll-snap-align: start; }
+.strip img { border-radius: 0.75rem; border: 1px solid var(--rule); }
+/* a panoramic carousel: the slides meet edge to edge so the painting runs on */
+/* a panorama scrolls freely: snapping to slide edges would fight the count's reading point (oriel.js) */
+.strip.panoramic { scroll-snap-type: none; }
+.strip.panoramic ol { gap: 0; }
+.strip.panoramic img { border-radius: 0; border: 0; }
+.strip.panoramic li:first-child img { border-radius: 0.75rem 0 0 0.75rem; }
+.strip.panoramic li:last-child img { border-radius: 0 0.75rem 0.75rem 0; }
+.strip-nav { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.5rem; font-size: 0.875rem; color: var(--ink-soft); }
+.strip-nav button {
+  width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); cursor: pointer;
+  display: inline-grid; place-items: center;
+}
+.strip-nav button:hover { border-color: var(--bay); }
+.strip-nav button:disabled { opacity: 0.4; cursor: default; }
+.strip-nav svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+@media print { .site-nav, .strip-nav, .watch, .pieces-block { display: none; } }
+/* figures drawn on the day paper keep it in the evening too: a paper panel, so their lines and lettering hold */
+.art.on-paper img { background: #f3ebdd; border-radius: 1rem; padding: 4%; }
+.art.figure-centre { margin: 1.75rem auto; width: min(100%, 28rem); }
+.art.figure-centre img { width: 100%; margin-inline: auto; }
+.not-found { font-size: clamp(2rem, 6vw, 3rem); margin: 0; }
