@@ -56,7 +56,51 @@ const motions = {
       moon.style.transform = `translateY(${(0.42 - 0.34 * k) * h}px)`;
     };
   },
+  // Film 2, after Seneca, On Anger 2.28.6. A friend's house seen from outside: curtains drawn, door shut, and the light
+  // on inside all along. Now and then a curtain parts a crack, or the door opens a little, and shuts again; given
+  // attention, the curtains part and the door opens on the lit rooms. "two-fronts" sets your own house, lit in every
+  // window, beside hers.
+  "closed-front": (el) => closedFront(el, EMBLEM_GEO["closed-front"]),
+  "two-fronts": (el) => closedFront(el, EMBLEM_GEO["two-fronts"]),
 };
+
+// Film 2's emblem geometry, in % of its canvas (src/posts/difficult-one/SiteFigures.tsx, EMBLEM and EMBLEM_NINA): Nina's
+// two window holes [left, top, width, height] and her door's hinge. Every layer is the canvas's full size, stacked in
+// register.
+const EMBLEM_GEO = {
+  "closed-front": { holes: [[40.833, 37.5, 7.444, 12.353], [51.722, 37.5, 7.444, 12.353]], hinge: 45.167 },
+  "two-fronts": { holes: [[60.833, 37.5, 7.444, 12.353], [71.722, 37.5, 7.444, 12.353]], hinge: 65.167 },
+};
+// Cut paper moves as the film moves it (docs/difficult-one/style.md): rigid pieces sliding on twos (12 positions a
+// second), a door that swings in steps, and stillness between moves.
+function closedFront(el, geo) {
+  const SLIDE = 4; // % of the canvas a curtain half travels to clear its window (36 of 900 px)
+  const halves = ["la", "lb", "ra", "rb"].map((k) => ({
+    img: el.querySelector(`.curtain-${k}`), hole: geo.holes[k[0] === "l" ? 0 : 1], dir: k[1] === "a" ? -1 : 1, left: k[0] === "l",
+  }));
+  const door = el.querySelector(".door");
+  door.style.transformOrigin = `${geo.hinge}% 50%`;
+  const PERIOD = 16; // seconds: the left curtains part a crack at 4 s, the door opens a little at 10 s
+  // 0 shut, eased up to 1 over `len` seconds from `at`, held, eased back
+  const bump = (t, at, hold, len = 0.5) =>
+    t < at ? 0 : t < at + len ? ease((t - at) / len) : t < at + len + hold ? 1 : ease(1 - (t - at - len - hold) / len);
+  return (time, rest) => {
+    const t = (Math.floor(time * 12) / 12) % PERIOD;
+    const r = Math.round(rest * 12) / 12; // coming to rest on twos as well
+    const peek = 0.3 * bump(t, 4, 1.6);
+    for (const h of halves) {
+      const o = (h.left ? peek : 0) * (1 - Math.min(r, 1)) + r; // 1: clear of the window
+      const dx = h.dir * SLIDE * o;
+      const [x, y, w, hh] = h.hole;
+      h.img.style.transform = `translateX(${dx}%)`;
+      // only what is inside the window shows: the hole, in the moving layer's own box
+      h.img.style.clipPath = `inset(${y}% ${100 - (x + w - dx)}% ${100 - y - hh}% ${x - dx}%)`;
+    }
+    const ajar = t >= 10 && t < 11.5 ? 0.62 : 1; // one step open and back, as the film's doors swing
+    const open = Math.min(r, 1);
+    door.style.transform = `scaleX(${Math.max(0.09, ajar + (0.09 - ajar) * open)})`;
+  };
+}
 
 for (const el of document.querySelectorAll("[data-emblem]")) {
   const make = motions[el.dataset.emblem];

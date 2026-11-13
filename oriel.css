@@ -140,6 +140,7 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; color: var(--night); text-wrap:
   display: grid; gap: clamp(1.5rem, 4vw, 3rem); align-items: center;
   background: var(--paper-deep); border-radius: 1.25rem; padding: clamp(1rem, 3vw, 2rem);
 }
+.film-entry + .film-entry { margin-top: 1.5rem; }
 @media (min-width: 52rem) { .film-entry { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); } }
 .film-entry h3 { font-size: clamp(1.6rem, 3.2vw, 2.25rem); margin: 0 0 0.75rem; }
 .film-entry h3 a { text-decoration: none; }
@@ -173,6 +174,9 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; color: var(--night); text-wrap:
 .emblem .sun, .emblem .moon { position: absolute; top: 0; will-change: transform; }
 .emblem .sun { left: 11%; width: 15%; }
 .emblem .moon { right: 8%; width: 19%; }
+/* film 2's emblem, a house seen from outside: every layer is the full canvas, stacked in register; oriel.js slides the
+   curtain halves (each clipped to its window) and swings the door on its hinge */
+.emblem[data-emblem="closed-front"] .lights img, .emblem[data-emblem="two-fronts"] .lights img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; will-change: transform; }
 
 /* ---------- Film page ---------- */
 .film-hero, .post-hero { max-width: var(--wide); margin: 0 auto; padding: clamp(1.5rem, 5vw, 3.5rem) var(--gutter) 0; }
@@ -188,6 +192,8 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; color: var(--night); text-wrap:
 .watch { max-width: 60rem; margin: 2rem auto 0; padding: 0 var(--gutter); }
 .player { position: relative; aspect-ratio: 16 / 9; border-radius: 1rem; overflow: hidden; background: var(--panel); }
 .player .poster { position: absolute; inset: 8% 0 auto; margin: auto; height: 84%; width: auto; max-width: 90%; object-fit: contain; }
+/* a hero that is a whole 16:9 frame of the film fills the player */
+.player.fill .poster { inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; }
 .player.tall { aspect-ratio: 9 / 16; width: min(100%, 17rem); }
 .player.tall .poster { inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; }
 .player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
