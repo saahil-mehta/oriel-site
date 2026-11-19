@@ -358,3 +358,7 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; color: var(--night); text-wrap:
 .art.figure-centre { margin: 1.75rem auto; width: min(100%, 28rem); }
 .art.figure-centre img { width: 100%; margin-inline: auto; }
 .not-found { font-size: clamp(2rem, 6vw, 3rem); margin: 0; }
+/* 404: one line, one button home, and a note that home opens by itself */
+.not-found-page .go-home { margin: 0 0 1rem; }
+.not-found-page .button { font-family: var(--sans); font-size: 1.0625rem; padding: 0.6rem 1.5rem; }
+.not-found-page .small { margin: 0; }
