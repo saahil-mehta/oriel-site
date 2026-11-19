@@ -62,7 +62,32 @@ const motions = {
   // window, beside hers.
   "closed-front": (el) => closedFront(el, EMBLEM_GEO["closed-front"]),
   "two-fronts": (el) => closedFront(el, EMBLEM_GEO["two-fronts"]),
+  // Film 3: a soulmate is made, one knot at a time, each one a small thing two people have come to know. A red cord with
+  // two knots in it; beside them a loop of its thread stands up and sways, and now and then nearly closes. Given
+  // attention, it is pulled tight into one more knot (src/posts/soulmates/SiteFigures.tsx, THE EMBLEM).
+  knot: (el) => knot(el),
 };
+
+// Film 3's cord is chalk on paper: it moves as the film moves it, by one drawing replacing the next on twos (12 a second),
+// with stillness between moves. One of six drawings shows at a time.
+function knot(el) {
+  const names = ["loop-a", "loop-b", "loop-c", "half", "squeeze", "tight"];
+  const imgs = Object.fromEntries(names.map((n) => [n, el.querySelector(`.${n}`)]));
+  let shown = null;
+  const show = (n) => {
+    if (n === shown) return;
+    for (const k of names) imgs[k].style.visibility = k === n ? "visible" : "hidden";
+    shown = n;
+  };
+  const PERIOD = 14; // seconds: the loop sways at 4 s and back at 6.5 s; it nearly closes at 9.5 s
+  const ambient = (t) =>
+    t < 4 ? "loop-a" : t < 4.25 ? "loop-b" : t < 6.5 ? "loop-c" : t < 6.75 ? "loop-b" : t < 9.5 ? "loop-a" : t < 10 ? "half" : "loop-a";
+  return (time, rest) => {
+    const t = (Math.floor(time * 12) / 12) % PERIOD;
+    // attention ties it: the loop drawn smaller, the knot with its wrap still open, the knot pulled tight
+    show(rest > 0.8 ? "tight" : rest > 0.55 ? "squeeze" : rest > 0.3 ? "half" : ambient(t));
+  };
+}
 
 // Film 2's emblem geometry, in % of its canvas (src/posts/difficult-one/SiteFigures.tsx, EMBLEM and EMBLEM_NINA): Nina's
 // two window holes [left, top, width, height] and her door's hinge. Every layer is the canvas's full size, stacked in
